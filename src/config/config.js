@@ -1,29 +1,39 @@
-import dotenv from 'dotenv';
-import {Command} from 'commander';
+import dotenv from "dotenv";
+dotenv.config();
 
-const program = new Command(); //Crea la instancia de comandos de commander.
-
-program
-    .option('-d', 'Variable para debug', false)
-    .option('--persist <mode>', 'Modo de persistencia', "mongodb")
-    .option('--mode <mode>', 'Modo de trabajo', 'dev')
-program.parse();
-
-//console.log("Options: ", program.opts());
-console.log("Environment Mode Option: ", program.opts().mode);
-console.log("Persistence Mode Option: ", program.opts().persist);
-
-const environment = program.opts().mode;
-
-dotenv.config({
-    path:environment==="prod"?"./src/config/.env.production":"./src/config/.env.development"
-});
-
-
-export default {
-    port: process.env.PORT,
-    mongoUrl: process.env.MONGO_URL,
-    persistence: program.opts().persist,
-    adminName: process.env.ADMIN_NAME,
-    adminPassword: process.env.ADMIN_PASSWORD
+const config = {
+    server: {
+        port: process.env.PORT || 8080,
+    },
+    database: {
+        dbUser: process.env.DB_USER,
+        dbPassword: process.env.DB_PASSWORD,
+        dbName: process.env.DB_NAME,
+        dbUrl: process.env.DB_URL,
+        dbTest: process.env.DB_TEST,
+    },
+    session: {
+        secret: process.env.SESSION_SECRET,
+    },
+    github: {
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        appId: process.env.APP_ID,
+        callbackUrl: process.env.CALLBACK_URL,
+    },
+    mailConfig: {
+        mailName: process.env.USER_MAIL,
+        mailPass: process.env.PASS_MAIL,
+        mailPort: process.env.PORT_MAIL,
+        mailService: process.env.SERVICE_MAIL,
+    },
+    loggerEnv: {
+        environment: process.env.NODE_ENV,
+    },
+    stripe: {
+        secret_key: process.env.STRIPE_SECRET_KEY,
+        public_key: process.env.STRIPE_PUBLIC_KEY,
+    },
 };
+
+export default config;
